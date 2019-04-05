@@ -1,42 +1,32 @@
-var express=require('express');
-const hbs=require('hbs');
+var expr=require('express');
+var hbs = require('hbs');
+var app=expr();
 const fs=require('fs');
-const port=process.env.PORT||3000;  //heroku
-var app = express();
-
-hbs.registerPartials(__dirname + '/views/partials')
-app.set('view engine', 'hbs');
-
-app.use((req,res,next) =>{
-	var now= new Date().toString();
-	var log=`${now}: ${req.method} ${req.url} ${req.path} ${req.protocol} ${req.host} ${req.ip} ${req.params}`;
-	
-	console.log(log);
-	fs.appendFile('server.log', log+ '\n');
-	next();
+const port=process.env.PORT||3000;
+app.set('view engine','hbs');
+//app.use(expr.static(__dirname + '/view'));
+//app.use(expr.static(__dirname + '/pvt'));
+app.get('/',(req,res) =>{
+res.render('home.hbs',{
+pageTitle:'Home Page',
+welcomeMessage:'Welcome to my website',
+currentYear: new Date().getFullYear()
 });
-app.use(express.static(__dirname+'/public'));
-hbs.registerHelper('getCurrentYear',()=>{
-	return new Date().getFullYear()
-});
-hbs.registerHelper('screamIt',(text)=>{
-	return text.toUpperCase();
-});
-app.get('/', (req,res)=>{
-	res.render('home.hbs',{
-		pageTitle: 'Home Page',
-		WelcomeMessage: 'Welcome to my website',
-		currentYear: new Date().getFullYear()
-	});
 });
 app.get('/about',(req,res)=>{
-	res.render('about.hbs',{
-		pageTitle: 'about Page',
-		currentYear: new Date().getFullYear()
+res.render('about.hbs',{
+pageTitle:'About page',
+currentYear: new Date().getFullYear()
 });
 });
-
-
-app.listen(port, ()=>{
-	console.log('server is up on port ${port}');
+app.get('/contacts',(req,res)=>{
+res.render('contacts.hbs',{
+emailid:'emailid',
+contact:'contact',
+address:'address'
+});
+});
+//app.listen(3000);
+app.listen(port,()=>{
+	console.log('server is up to on port ${port}');
 });

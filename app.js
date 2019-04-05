@@ -1,55 +1,62 @@
 var expr=require('express');
-var app = expr();
-//app.use(expr.static(__dirname +'/public'));
-app.use(expr.static(__dirname +'/Pvt'));
-
-app.get('/', (req,res)=>{
-	//res.send('<h1>This is our first express code!</h1>');
-	var obj={
-		'name':'jyoti',
-		'section':'D1619',
-		'RollNo':'B32',
-		'Registration':'11608310'
-	}
-	res.send(obj);
+var hbs = require('hbs');
+var app=expr();
+//app.use(expr.static(__dirname + '/public'));
+//app.use(expr.static(__dirname + '/pvt'));
+app.set('view engine','hbs');
+app.get('/',(req,res) =>{
+//res.send('<h1>This is our first code</h1>');
+/*var obj={
+	'name':'Samarjeet singh',
+	'Section':'D1619',
+	'Registration no.':'11610623'
+}
+res.send(obj);*/
+res.render('home.hbs',{
+pageTitle:'Home Page',
+welcomeMessage:'Welcome to my website',
+currentYear: new Date().getFullYear()
 });
-app.get('/Course',(req,res)=>{
-	var obj={
-		'CAP906':'Python',
-		'CAP707':'InformationSystem',
-		'CAP918':'nodejs',
-		'CAP919':'ionic'
-//res.send("introduction");
-	}
-	res.send(obj);
+});
+app.get('/Courses',(req,res)=>{
+	//res.send("Introduction");
+	var Courses={
+	'Cap918':'ionic',
+	'Cap919':'Nodejs',
+	'Cap906':'Python',
+	'Cap375':'Gamedesisgn'
+}
+res.send(Courses);
 });
 app.get('/Grades',(req,res)=>{
-	var obj={
-		'CAP906':'O',
-		'CAP707':'A',
-		'CAP918':'A',
-		'CAP919':'A+'
-//res.send("Here I am in page-2")
+	//res.send("Opened Page2");
+	var Grades={
+	'Cap918':'A+',
+	'Cap919':'A',
+	'Cap906':'O',
+	'Cap375':'O'
 }
-	res.send(obj);
+res.send(Grades);
 });
-app.get('/marks',(req,res)=>{
-	var obj={
-		'CAP906':'90',
-		'CAP907':'75',
-		'CAP918':'70',
-		'CAP919':'85'
-		}
-	res.send(obj);
-	});
-	
-	app.get('/Att',(req,res)=>{
-	var obj={
-		'CAP906':'85%',
-		'CAP907':'80%',
-		'CAP918':'82%',
-		'CAP919':'90%'
-		}
-	res.send(obj);
-	});
+
+app.get('/Marks',(req,res)=>{
+	//res.send("Opened Page2");
+	var Marks={
+	'Cap918':'82',
+	'Cap919':'75',
+	'Cap906':'89',
+	'Cap375':'95'
+}
+res.send(Marks.Cap918);
+});
+app.get('/Attendance',(req,res)=>{
+	//res.send("Opened Page2");
+	var Attendance={
+	'Cap918':'82%',
+	'Cap919':'100%',
+	'Cap906':'89%',
+	'Cap375':'95%'
+}
+res.send(Attendance);
+});
 app.listen(3000);
